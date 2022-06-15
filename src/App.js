@@ -1,25 +1,48 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
+import CountryContainer from './containers/CountryContainer';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <CountriesList />
+      <CountryContainer />
+    </>
   );
+}
+
+
+const CountriesList = () => {
+
+    const [countries, setCountries] = useState([]);
+
+    useEffect(
+      () => {
+        fetch(`https://restcountries.com/v3.1/all`)
+        .then(response => response.json())
+        .then(result => setCountries(result))
+      }, []
+    )
+
+    return (
+      <>
+        <form action="" id="country-pick">
+        <label for="country-selection">Select A Country</label>
+        <select name="">
+          {countries.map((countries, index) => (
+          <option key={index}>
+            {countries.name.common}
+          </option>))}
+        </select>
+        <input type="submit" value="Mark as visited"></input>
+        
+        </form>
+      </>
+    )
+
+
 }
 
 export default App;
